@@ -11,6 +11,12 @@ const db = require("./utils/db");
 const chalk = require("chalk");
 const express = require("express");
 const app = express();
+const compression = require("compression");
+const cors = require("cors");
+const { json, urlencoded } = require("body-parser");
+const session = require("express-session");
+const morgan = require("morgan");
+const restRoutes = require("./rest");
 const http = require("http").createServer(app);
 let https;
 const readline = require("readline").createInterface({
@@ -44,25 +50,52 @@ db.get("botToken")
       dichonoClient.commands = new Collection();
       dichonoClient.buttons = new Collection();
       dichonoClient.selectMenus = new Collection();
+      dichonoClient.configuration = new Collection();
 
       await loadEvents(dichonoClient);
+
+      app.use((request, response, next) => {
+        request.dichonoClient = dichonoClient;
+        request.avatarUrl = dichonoClient.user.avatarURL();
+
+        next();
+      });
 
       dichonoClient
         .login(botToken)
         .then(() => {
           logger.success("Dichono has logged in to Discord.");
 
-          const io = require("socket.io")(http, {
-            cors: {
-              origin: ["https://3reco.co.za", "http://localhost:5173"],
-              methods: ["GET", "POST"],
-            },
+          let morganMiddleware = morgan(function (tokens, req, res) {
+            return [
+              chalk.hex("#10b981").bold(tokens.method(req, res) + "\t"),
+              chalk.hex("#ffffff").bold(tokens.status(req, res) + "\t"),
+              chalk.hex("#262626").bold(tokens.url(req, res) + "\t\t\t"),
+              chalk
+                .hex("#10b981")
+                .bold(tokens["response-time"](req, res) + " ms"),
+            ].join(" ");
           });
 
-          dichonoClient.socket = io;
+          const corsOptions = {
+            origin: "*",
+            credentials: true, //access-control-allow-credentials:true
+            optionSuccessStatus: 200,
+          };
+
+          app.use(morganMiddleware);
+          app.use(cors(corsOptions));
+          app.use(compression());
+          app.use(json({ limit: "50mb" }));
+          app.use(urlencoded({ limit: "50mb", extended: false }));
+          app.use(session({ secret: process.env.ROOT_PASSWORD }));
+          app.use(express.static(__dirname + "/public"));
+          app.use(express.static(__dirname + "/.well-known"));
+
+          app.use("/rest", restRoutes);
 
           http.listen(80, () => {
-            logger.success("Dichono websocket online at http://127.0.0.1");
+            logger.success("Dichono rest online at http://127.0.0.1");
           });
         })
         .catch((error) => {
