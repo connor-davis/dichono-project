@@ -15,6 +15,7 @@ specifiers:
   solid-transition-group: ^0.0.13
   tailwindcss: ^3.2.6
   tw-elements: 1.0.0-alpha13
+  typescript: ^4.9.5
   vite: ^4.1.1
   vite-plugin-solid: ^2.5.0
 
@@ -32,9 +33,10 @@ devDependencies:
   autoprefixer: 10.4.13_postcss@8.4.21
   postcss: 8.4.21
   prettier: 2.8.4
-  prettier-plugin-organize-imports: 3.2.2_prettier@2.8.4
+  prettier-plugin-organize-imports: 3.2.2_silln3pw57har7jydmecgzoypa
   prettier-plugin-tailwindcss: 0.2.2_tnxajtglrwt6ss4l7qpdnez62i
   tailwindcss: 3.2.6_postcss@8.4.21
+  typescript: 4.9.5
   vite: 4.1.1
   vite-plugin-solid: 2.5.0_solid-js@1.6.10+vite@4.1.1
 
@@ -1284,7 +1286,7 @@ packages:
       picocolors: 1.0.0
       source-map-js: 1.0.2
 
-  /prettier-plugin-organize-imports/3.2.2_prettier@2.8.4:
+  /prettier-plugin-organize-imports/3.2.2_silln3pw57har7jydmecgzoypa:
     resolution: {integrity: sha512-e97lE6odGSiHonHJMTYC0q0iLXQyw0u5z/PJpvP/3vRy6/Zi9kLBwFAbEGjDzIowpjQv8b+J04PDamoUSQbzGA==}
     peerDependencies:
       '@volar/vue-language-plugin-pug': ^1.0.4
@@ -1298,6 +1300,7 @@ packages:
         optional: true
     dependencies:
       prettier: 2.8.4
+      typescript: 4.9.5
     dev: true
 
   /prettier-plugin-tailwindcss/0.2.2_tnxajtglrwt6ss4l7qpdnez62i:
@@ -1350,7 +1353,7 @@ packages:
         optional: true
     dependencies:
       prettier: 2.8.4
-      prettier-plugin-organize-imports: 3.2.2_prettier@2.8.4
+      prettier-plugin-organize-imports: 3.2.2_silln3pw57har7jydmecgzoypa
     dev: true
 
   /prettier/2.8.4:
@@ -1565,6 +1568,12 @@ packages:
       - postcss
       - ts-node
     dev: false
+
+  /typescript/4.9.5:
+    resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: true
 
   /update-browserslist-db/1.0.10_browserslist@4.21.5:
     resolution: {integrity: sha512-OztqDenkfFkbSG+tRxBeAnCVPckDBcvibKd35yDONx6OU8N7sqgwc7rCbkJ/WcYtVRZ4ba68d6byhC21GFh7sQ==}
